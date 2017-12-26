@@ -6,6 +6,7 @@ module Converter
     ) where
 
 import System.IO
+import System.Directory
 import Control.Monad
 import Data.List
 
@@ -36,7 +37,11 @@ bboxToDarknet sigDigs classesPath labelPath = do
   image <- I.readImageRGB I.VU (T.unpack imgPath)
   let imgDims = I.dims image
       write   = fmap (\list -> (classString2Index classes (last list)) : (d2bCoords sigDigs imgDims (init list))) lines
-  T.writeFile labelPath (T.unlines . fmap (T.intercalate " " ) $  write)
+  
+  let writeDir  = T.replace "Images" "Darknet" relPath
+      writePath = T.replace "Labels" "Darknet" (T.pack labelPath)
+  createDirectoryIfMissing True (T.unpack writeDir)
+  T.writeFile (T.unpack writePath) (T.unlines . fmap (T.intercalate " " ) $  write)
   return ()
 
 {--TODO 
