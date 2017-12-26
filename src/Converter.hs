@@ -71,8 +71,8 @@ classString2Index classes value = case elemIndex True classOverlap of
 --d2bCoords :: ImageSize -> DarknetCoords -> BBoxCoords
 d2bCoords sigDigs imgDims coords =
     let trunc' = Converter.truncate sigDigs 
-        dw     = 1.0/(fromIntegral(fst imgDims))
-        dh     = 1.0/(fromIntegral(snd imgDims))
+        dw     = 1.0/(fromIntegral(snd imgDims))
+        dh     = 1.0/(fromIntegral(fst imgDims))
         xmin   = read $ T.unpack (coords !! 0)
         xmax   = read $ T.unpack (coords !! 2)
         ymin   = read $ T.unpack (coords !! 1)
